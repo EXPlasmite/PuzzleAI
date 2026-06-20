@@ -76,6 +76,7 @@ public class PushAgent : Agent
         float agentToBoxDist = agentToBox.magnitude;
         float boxToGoalDist = boxToGoal.magnitude;
 
+        // Encourage reaching the box
         if (!touchedBox)
         {
             AddReward(-agentToBoxDist * 0.01f);
@@ -86,18 +87,25 @@ public class PushAgent : Agent
             }
         }
 
+        // Reward moving box closer to goal
         float goalReward = (prevBoxToGoal.magnitude - boxToGoalDist) * 0.2f;
         AddReward(Mathf.Clamp(goalReward, -0.2f, 0.2f));
         prevBoxToGoal = boxToGoal;
 
+        // Step penalty
         AddReward(-0.0002f);
 
-        if (Mathf.Abs(box.position.x) > 7f ||
-            Mathf.Abs(box.position.y) > 7f)
+        // Graduated wall proximity penalty
+        float boxDistToWallX = 8.5f - Mathf.Abs(box.position.x);
+        float boxDistToWallY = 8.5f - Mathf.Abs(box.position.y);
+        float minWallDist = Mathf.Min(boxDistToWallX, boxDistToWallY);
+
+        if (minWallDist < 2f)
         {
-            AddReward(-0.05f);
+            AddReward(-0.1f * (1f - minWallDist / 2f));
         }
 
+        // Stuck detection - only after touching box
         if (touchedBox)
         {
             if (Vector2.Distance(box.position, lastBoxPosition) < 0.01f)
@@ -116,12 +124,14 @@ public class PushAgent : Agent
             }
         }
 
+        // Success
         if (boxToGoalDist < 0.8f)
         {
             AddReward(10f);
             EndEpisode();
         }
 
+        // Out of bounds
         if (Mathf.Abs(box.position.x) > 8.5f ||
             Mathf.Abs(box.position.y) > 8.5f)
         {
