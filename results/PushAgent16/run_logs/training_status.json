@@ -1,0 +1,65 @@
+{
+    "PushAgent": {
+        "checkpoints": [
+            {
+                "steps": 1000059,
+                "file_path": "results\\PushAgent16\\PushAgent\\PushAgent-1000059.onnx",
+                "reward": -1.3648873790251939,
+                "creation_time": 1781885588.6986935,
+                "auxillary_file_paths": [
+                    "results\\PushAgent16\\PushAgent\\PushAgent-1000059.pt"
+                ]
+            },
+            {
+                "steps": 1499984,
+                "file_path": "results\\PushAgent16\\PushAgent\\PushAgent-1499984.onnx",
+                "reward": 2.5943195823056158,
+                "creation_time": 1781886621.9460745,
+                "auxillary_file_paths": [
+                    "results\\PushAgent16\\PushAgent\\PushAgent-1499984.pt"
+                ]
+            },
+            {
+                "steps": 1500048,
+                "file_path": "results\\PushAgent16\\PushAgent\\PushAgent-1500048.onnx",
+                "reward": 2.5943195823056158,
+                "creation_time": 1781886621.970662,
+                "auxillary_file_paths": [
+                    "results\\PushAgent16\\PushAgent\\PushAgent-1500048.pt"
+                ]
+            },
+            {
+                "steps": 1999965,
+                "file_path": "results\\PushAgent16\\PushAgent\\PushAgent-1999965.onnx",
+                "reward": 3.870946266828105,
+                "creation_time": 1781889320.0519693,
+                "auxillary_file_paths": [
+                    "results\\PushAgent16\\PushAgent\\PushAgent-1999965.pt"
+                ]
+            },
+            {
+                "steps": 2000029,
+                "file_path": "results\\PushAgent16\\PushAgent\\PushAgent-2000029.onnx",
+                "reward": 3.870946266828105,
+                "creation_time": 1781889320.085849,
+                "auxillary_file_paths": [
+                    "results\\PushAgent16\\PushAgent\\PushAgent-2000029.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2000029,
+            "file_path": "results\\PushAgent16\\PushAgent.onnx",
+            "reward": 3.870946266828105,
+            "creation_time": 1781889320.085849,
+            "auxillary_file_paths": [
+                "results\\PushAgent16\\PushAgent\\PushAgent-2000029.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.1.1+cpu"
+    }
+}
