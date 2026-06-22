@@ -115,7 +115,6 @@ public class MazeGenerator : MonoBehaviour
     public Vector2 GetExitPosition()
     {
         int exitY = mazeHeight / 2;
-        // Place box just outside the maze exit (one cell to the right)
-        return gridSystem.GridToWorld(mazeWidth, exitY);
+        return gridSystem.GridToWorld(mazeWidth + 2, exitY);
     }
 }

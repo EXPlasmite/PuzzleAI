@@ -24,6 +24,9 @@ public class PushAgent : Agent
     public float boundsMinY = 24f;
     public float boundsMaxY = 47f;
 
+    [Header("Maze Boundary")]
+    public float mazeExitX = 18f;
+
     private Rigidbody2D rb;
     private Rigidbody2D boxRb;
 
@@ -64,8 +67,9 @@ public class PushAgent : Agent
         boxRb.velocity = Vector2.zero;
         boxRb.angularVelocity = 0f;
 
-        float goalX = Random.Range(25f, 40f);
-        float goalY = Random.Range(26f, 45f);
+        // Smaller goal range to help agent find goal more often early in training
+        float goalX = Random.Range(25f, 38f);
+        float goalY = Random.Range(28f, 43f);
         goal.position = new Vector3(goalX, goalY, 0f);
 
         phase1Complete = false;
@@ -79,6 +83,8 @@ public class PushAgent : Agent
 
     private void CalculatePathToBox()
     {
+        Vector2Int boxGrid = gridSystem.WorldToGrid(box.position);
+        
         currentPath = pathfinder.FindPath(transform.position, box.position);
         currentWaypointIndex = 0;
 
@@ -108,6 +114,7 @@ public class PushAgent : Agent
             if (distToBox < 0.8f)
             {
                 phase1Complete = true;
+                touchedBox = true;
                 AddReward(1f);
             }
         }
@@ -133,13 +140,28 @@ public class PushAgent : Agent
                 }
             }
 
-            float goalReward = (prevBoxToGoal.magnitude - boxToGoalDist) * 0.2f;
-            AddReward(Mathf.Clamp(goalReward, -0.2f, 0.2f));
+            // Stronger reward signal for moving box toward goal
+            float goalReward = (prevBoxToGoal.magnitude - boxToGoalDist) * 0.5f;
+            AddReward(Mathf.Clamp(goalReward, -0.5f, 0.5f));
             prevBoxToGoal = boxToGoal;
 
-            AddReward(-0.0002f);
+            // Reduced step penalty to give more time to explore
+            AddReward(-0.0001f);
 
-            // Wall proximity penalty using dungeon bounds
+            // Penalty for going back into maze during Phase 2
+            if (transform.position.x < mazeExitX)
+            {
+                AddReward(-0.05f);
+            }
+
+            // End episode if agent goes too far back into maze
+            if (transform.position.x < mazeExitX - 3f)
+            {
+                AddReward(-1f);
+                EndEpisode();
+            }
+
+            // Wall proximity penalty
             float distToMinX = box.position.x - boundsMinX;
             float distToMaxX = boundsMaxX - box.position.x;
             float distToMinY = box.position.y - boundsMinY;
@@ -167,13 +189,13 @@ public class PushAgent : Agent
                 }
             }
 
+            // Stronger success reward
             if (boxToGoalDist < 0.8f)
             {
-                AddReward(10f);
+                AddReward(20f);
                 EndEpisode();
             }
 
-            // Out of bounds check using dungeon bounds
             if (box.position.x < boundsMinX || box.position.x > boundsMaxX ||
                 box.position.y < boundsMinY || box.position.y > boundsMaxY)
             {

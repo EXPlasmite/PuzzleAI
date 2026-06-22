@@ -6,7 +6,7 @@ public class GridSystem : MonoBehaviour
     [Header("Grid Settings")]
     public float cellSize = 1f;
     public Vector2 gridOrigin = new Vector2(-3.56f, 24.95f);
-    public int gridWidth = 22;
+    public int gridWidth = 45;
     public int gridHeight = 22;
 
     private bool[,] walkable;

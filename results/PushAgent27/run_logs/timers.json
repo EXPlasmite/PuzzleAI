@@ -1,0 +1,42 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1782100889",
+        "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\tybin\\AppData\\Local\\Programs\\Python\\Python310\\Scripts\\mlagents-learn config/PushAgent.yaml --run-id=PushAgent27 --initialize-from=PushAgent26",
+        "mlagents_version": "1.1.0",
+        "mlagents_envs_version": "1.1.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.1.1+cpu",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1782100962"
+    },
+    "total": 72.75540760002332,
+    "count": 1,
+    "self": 0.007173299964051694,
+    "children": {
+        "run_training.setup": {
+            "total": 0.08075150003423914,
+            "count": 1,
+            "self": 0.08075150003423914
+        },
+        "TrainerController.start_learning": {
+            "total": 72.66748280002503,
+            "count": 1,
+            "self": 7.82000133767724e-05,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 72.66738980001537,
+                    "count": 1,
+                    "self": 72.66738980001537
+                },
+                "TrainerController._save_models": {
+                    "total": 1.479999627918005e-05,
+                    "count": 1,
+                    "self": 1.479999627918005e-05
+                }
+            }
+        }
+    }
+}
