@@ -5,19 +5,25 @@ public class AStarPathfinder : MonoBehaviour
 {
     private GridSystem grid;
 
+    // Initialise with a reference to the shared GridSystem
     public void Initialise(GridSystem gridSystem)
     {
         grid = gridSystem;
     }
 
+    // Find optimal path from start to target in world space
+    // Returns list of world space waypoints or null if no path exists
     public List<Vector2> FindPath(Vector2 startWorld, Vector2 targetWorld)
     {
+        // Convert world positions to grid coordinates
         Vector2Int start = grid.WorldToGrid(startWorld);
         Vector2Int target = grid.WorldToGrid(targetWorld);
 
+        // Return null if start or target are outside grid bounds
         if (!grid.InBounds(start.x, start.y) || !grid.InBounds(target.x, target.y))
             return null;
 
+        // Return null if target cell is a wall
         if (!grid.IsWalkable(target.x, target.y))
             return null;
 
@@ -27,10 +33,13 @@ public class AStarPathfinder : MonoBehaviour
         Node startNode = new Node(start, null, 0, Heuristic(start, target));
         openList.Add(startNode);
 
+        // A* main loop - explore nodes until target is reached or no path exists
         while (openList.Count > 0)
         {
+            // Always process the node with lowest f(n) = g(n) + h(n)
             Node current = GetLowestF(openList);
 
+            // Target reached - reconstruct and return the path
             if (current.position == target)
                 return ReconstructPath(current);
 
@@ -39,6 +48,7 @@ public class AStarPathfinder : MonoBehaviour
 
             foreach (Vector2Int neighbour in GetNeighbours(current.position))
             {
+                // Skip already evaluated nodes and walls
                 if (closedSet.Contains(neighbour)) continue;
                 if (!grid.IsWalkable(neighbour.x, neighbour.y)) continue;
 
@@ -51,15 +61,18 @@ public class AStarPathfinder : MonoBehaviour
                     openList.Add(neighbourNode);
                 else if (g < existing.g)
                 {
+                    // Found a cheaper path to this node - update it
                     existing.g = g;
                     existing.parent = current;
                 }
             }
         }
 
+        // No path found
         return null;
     }
 
+    // Trace back from target node to start and return as ordered list of world positions
     private List<Vector2> ReconstructPath(Node endNode)
     {
         List<Vector2> path = new List<Vector2>();
@@ -73,11 +86,14 @@ public class AStarPathfinder : MonoBehaviour
         return path;
     }
 
+    // Manhattan distance heuristic - counts horizontal and vertical steps to target
+    // Chosen for 4-directional grid movement
     private float Heuristic(Vector2Int a, Vector2Int b)
     {
         return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
     }
 
+    // Return the node with the lowest combined f score from the open list
     private Node GetLowestF(List<Node> list)
     {
         Node lowest = list[0];
@@ -86,6 +102,7 @@ public class AStarPathfinder : MonoBehaviour
         return lowest;
     }
 
+    // Return the four cardinal neighbours of a grid position
     private List<Vector2Int> GetNeighbours(Vector2Int pos)
     {
         return new List<Vector2Int>
@@ -97,13 +114,14 @@ public class AStarPathfinder : MonoBehaviour
         };
     }
 
+    // Node class representing a cell in the pathfinding grid
     private class Node
     {
         public Vector2Int position;
         public Node parent;
-        public float g;
-        public float h;
-        public float F => g + h;
+        public float g; // Cost from start to this node
+        public float h; // Estimated cost from this node to target
+        public float F => g + h; // Total estimated cost
 
         public Node(Vector2Int pos, Node parent, float g, float h)
         {

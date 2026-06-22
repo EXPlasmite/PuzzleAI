@@ -1,5 +1,10 @@
 using UnityEngine;
 
+// CameraFollow2D.cs
+// Sourced from the 2D Platformer Tilemap Pack - Dungeon Theme (Free) asset by original creator
+// Used under Unity Asset Store Standard License
+// Minor modifications made by Ty Bingham - target assigned to AI agent instead of player character
+
 namespace SceneScript
 {
     public class CameraFollow2D : MonoBehaviour
@@ -20,7 +25,7 @@ namespace SceneScript
             // Make sure a target has been assigned
             if (target == null) return;
 
-            // Calculate the desired camera position based on the target’s position and offset
+            // Calculate the desired camera position based on the target's position and offset
             Vector3 desiredPosition = target.position + offset;
 
             // Smoothly interpolate from the current position to the desired position
