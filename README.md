@@ -1,6 +1,6 @@
 # PuzzleAI - Hybrid AI System (Unity)
 
-**A hybrid AI puzzle game demonstrating procedural maze generation, A* pathfinding and ML-Agents reinforcement learning.**
+**A hybrid AI puzzle game demonstrating procedural maze generation, A\* pathfinding and ML-Agents reinforcement learning.**
 
 > **Module:** COM6026M, York St John University
 > **Author:** Ty Bingham (230254233)
