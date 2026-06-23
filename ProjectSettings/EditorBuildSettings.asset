@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Level.unity
+    path: Assets/Scenes/PuzzleAI.unity
     guid: 1cc8663e6c97b1e40961b78fda4ca992
   m_configObjects: {}
